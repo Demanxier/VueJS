@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+ <heade>
+  <meta charset="UTF-8">
+  <title>Cadastro de Tarefa</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+  <style>
+
+   .tarefaPronta{
+    text-decoration: line-through;
+   }
+
+  </style>
+ </heade>
+ <body>
+  <div class="container-fluid" id="tarefasApp">
+   <h1>Controle de tarefas</h1>
+   <h2>Adicionar Tarefas</h2>
+   <form class="form-inline" v-on:submit="addTarefa">
+    <input type="text" v-model="novaTarefa.titulo" placeholder="Título da tarefa">
+    <input type="submit" class="btn btn-primary" value="Adicionar">
+
+   </form>
+
+   <hr>
+   <h2>Tarefas a fazer</h2>
+   <table class="table-striped">
+    <thead>
+     <th>Pronta?</th>
+     <th>Título</th>
+     <th>Remover</th>
+    </thead>
+
+    <tbody>
+     <tr v-for="tarefa in tarefas">
+      <td><input type="checkbox" v-model="tarefa.pronta"></td>
+      <td><span v-bind:class="{ tarefaPronta: tarefa.pronta} ">{{tarefa.titulo}}</span></td>
+      <td><button class="btn btn-danger" v-on:click="removerTarefa(tarefa)">Deletar</button></td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+  <script>
+
+   var tarefasApp = new Vue({
+    el: "#tarefasApp",
+    data: {
+     tarefas: [
+      { titulo: "Desenvolver API para o sistema.", pronta : false},
+      { titulo: "Criar controle de acesso", pronta: false },
+      { titulo: "Enviar novas mudanças para o servidor", pronta: false },
+      { titulo: "Teste", pronta: false },
+      ],
+      novaTarefa: {
+       titulo: '',
+       pronta: false
+      }
+    },
+    methods: {
+     addTarefa: function(e){
+      e.preventDefault();
+      this.tarefas.push(this.novaTarefa);
+     },
+     removerTarefa: function(tarefa){
+      this.tarefas.splice(this.tarefas.indexOf(tarefa),1)
+     }
+    }
+   });
+
+  </script>
+
+ </body>
+</html>
